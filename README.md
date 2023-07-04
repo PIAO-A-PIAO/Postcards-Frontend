@@ -1,7 +1,7 @@
-# Hear_U_Tormorrow
+# Postcards
 
-This is a mobile app that allows user to post short audios.
+This is a mobile/website app that allows user to send virtual postcards/letters to their families/friends or even total strangers..
 
-Users can use it as a diary or "voice album".
+Users can also use it as a journal or "postcard album".
 
-The project is built with javascript.
+The project is mainly built with javascript.
