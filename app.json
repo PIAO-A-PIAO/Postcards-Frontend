@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "KnowQuestMobile",
+    "slug": "KnowQuestMobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/kqhome.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/kqhome.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/kqhome.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/kqhome.png"
+    }
+  }
+}
