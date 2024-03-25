@@ -1,4 +1,4 @@
-# Developer's Guide
+# Frontend of Postcards
 
 ## Development Environment
 
@@ -53,16 +53,5 @@
 * Future production build deployment can be accomplished using [`EAS Build`](https://docs.expo.dev/build/introduction/)
   feature in EXPO. The documentation contains relevant information to deploy the App to App Store and Google Play Store.
 * For testing purposes, there currently exists two accounts `admin@gmail.com` with password `amdin` and `test@gmail.com`
-  with password `test` within the `KnowQuestClusterMobile` database that were used regularly under the development
+  with password `test` within the `PostcardsClusterMobile` database that were used regularly under the development
   environment.
-
-## TODO's
-
-This mainly consists of some logic implementations that our team didn't complete due the limited time and/or features
-that are not yet implemented on KnowQuest's backend (I am sure they will be soon!)
-
-* SignUp(with/without Google Account) and ForgetPassword logic implementation
-* Home Page: review freqeuncy bar plot, daily emoji
-* Half Star reviews (prototype could be found in the `RatingBarRework.js`)
-* Reward page logic implementation
-* QR Code Scan
