@@ -1,9 +1,23 @@
-const {NextFederationPlugin} = require("@module-federation/nextjs-mf")
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const NextFederationPlugin = require("@module-federation/nextjs-mf");
 
-const remotes = (isServer) => {
-    const location = isServer ? "ssr" : "chunks"
-    return {
-        remote: `remote@http://localhost:8080/_next/static/${location}/remoteEntry.js`,
+export default {
+  webpack(config, options) {
+    if (!options.isServer) {
+      config.plugins.push(
+        new NextFederationPlugin({
+          name: "shop",
+          filename: "static/chunks/remoteEntry.js",
+          remotes: {
+            home: "home@http://localhost:3000/_next/static/chunks/remoteEntry.js",
+          },
+          exposes: {
+            "./shop": "./pages/index",
+          },
+        })
+      );
     }
-    
-}
+    return config;
+  },
+};
