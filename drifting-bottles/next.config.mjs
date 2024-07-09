@@ -1,4 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+const {NextFederationPlugin} = require("@module-federation/nextjs-mf")
 
-export default nextConfig;
+const remotes = (isServer) => {
+    const location = isServer ? "ssr" : "chunks"
+    return {
+        remote: `remote@http://localhost:8080/_next/static/${location}/remoteEntry.js`,
+    }
+    
+}
