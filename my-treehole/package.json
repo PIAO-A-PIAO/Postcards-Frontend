@@ -1,5 +1,5 @@
 {
-  "name": "drifting-bottles",
+  "name": "my-treehole",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,18 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@module-federation/nextjs-mf": "^8.3.28",
-    "module": "^1.2.5",
     "next": "14.2.4",
     "react": "^18",
-    "react-dom": "^18",
-    "webpack": "^5.92.1"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/node": "20.14.9",
-    "@types/react": "18.3.3",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "5.5.2"
+    "typescript": "^5"
   }
 }
