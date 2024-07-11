@@ -1,38 +1,28 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import OnboardingModal from "./(components)/OnboardingModal";
 
 export default function Home() {
-  const effectRan = useRef(false);
-  const [onboard, setOnboard] = useState(true);
-
-  const handleFinishOnboarding = () => {};
-  useEffect(() => {
-    if (!effectRan.current) {
-      const searchTreehole = async () => {
-        try {
-          const response = await fetch("/api/Treehole/get-user");
-          if (!response.ok) {
-            const result = await response.json();
-            console.log(result);
-          } else {
-            const result = await response.json();
-            setOnboard(result.onboard);
-            console.log(result);
-          }
-        } catch (error) {}
-      };
-
-      searchTreehole();
-    }
-    return () => {
-      effectRan.current = true;
-    };
-  }, []);
   return (
-    <main className="bg-gray-50 flex w-screen h-screen flex-col items-center justify-between p-24">
-      {!onboard && <OnboardingModal onClose={handleFinishOnboarding} />}
+    <main className="bg-gray-50 flex flex-col w-screen h-screen items-center justify-between p-24">
+      <a href="/write" className="bg-blue-600 p-4 text-white rounded-lg">
+        Write letters - this is a table
+      </a>
+      <a className="bg-blue-600 p-4 text-white rounded-lg">
+        New letters - this is an envlope on windowsill
+      </a>
+      <a className="bg-blue-600 p-4 text-white rounded-lg">
+        Letter history/friend list - this is a shelf
+      </a>
+      <a className="bg-blue-600 p-4 text-white rounded-lg">
+        notification - this is a wind chime
+      </a>
+      <a className="bg-blue-600 p-4 text-white rounded-lg">
+        Supplies - this is a drawer
+      </a>
+      <a className="bg-blue-600 p-4 text-white rounded-lg">
+        Profile/settings - this is a map
+      </a>
     </main>
   );
 }

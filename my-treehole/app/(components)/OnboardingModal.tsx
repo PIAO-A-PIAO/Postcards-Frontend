@@ -21,7 +21,7 @@ const OnboardingModal = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
-  const finishOnboarding = async () => {
+  const handleSubmit = async () => {
     if (!location) {
       setErrorMsg("Please select a location");
       return;
@@ -46,7 +46,7 @@ const OnboardingModal = ({ onClose }: { onClose: () => void }) => {
         console.log(result);
       }
     } catch (error) {}
-    onClose();
+    nextScreen();
   };
 
   const handleLanguageChange = (code: string) => {
@@ -82,28 +82,8 @@ const OnboardingModal = ({ onClose }: { onClose: () => void }) => {
             </button>
           </div>
         )}
+
         {screen === 2 && (
-          <div className="text-center py-6 w-full h-full flex flex-col justify-between items-center">
-            <div className="gap-2 w-2/3">
-              <h1>10 Free Stamps!</h1>
-              <p>
-                You need stamps to send out letters. You'll also receive stamps
-                when others send a letter to you.
-              </p>
-            </div>
-            <img
-              className="h-1/2 aspect-video"
-              src="./assets/placeholder.svg"
-            />
-            <button
-              onClick={nextScreen}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/2 py-2 px-4 rounded mt-4"
-            >
-              Next
-            </button>
-          </div>
-        )}
-        {screen === 3 && (
           <div className="text-center py-6 w-full h-full flex flex-col justify-between items-center">
             <div className="gap-2 w-2/3">
               <h1>What languages do you use?</h1>
@@ -131,7 +111,7 @@ const OnboardingModal = ({ onClose }: { onClose: () => void }) => {
             </button>
           </div>
         )}
-        {screen === 4 && (
+        {screen === 3 && (
           <div className="text-center py-6 w-full h-full flex flex-col justify-between items-center">
             <div className="gap-2 w-2/3">
               <h1>Where are you?</h1>
@@ -141,13 +121,37 @@ const OnboardingModal = ({ onClose }: { onClose: () => void }) => {
               </p>
             </div>
             <div className="h-1/2 aspect-video">
-              <Map onSelectLocation={handleSelectLocation} selectedLocation={location}/>
+              <Map
+                onSelectLocation={handleSelectLocation}
+                selectedLocation={location}
+              />
             </div>
             <button
-              onClick={finishOnboarding}
+              onClick={handleSubmit}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/2 py-2 px-4 rounded mt-4"
             >
-              Finish
+              Next
+            </button>
+          </div>
+        )}
+        {screen === 4 && (
+          <div className="text-center py-6 w-full h-full flex flex-col justify-between items-center">
+            <div className="gap-2 w-2/3">
+              <h1>Congragulations!</h1>
+              <p>
+                You need stamps to send out letters. You'll also receive stamps
+                when others send a letter to you. Now feel free to explore!
+              </p>
+            </div>
+            <img
+              className="h-1/2 aspect-video"
+              src="./assets/placeholder.svg"
+            />
+            <button
+              onClick={onClose}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/2 py-2 px-4 rounded mt-4"
+            >
+              Let's go
             </button>
           </div>
         )}

@@ -8,9 +8,6 @@ export async function GET(req) {
     await connectDB(); // Connect to MongoDB
 
     const token = req.cookies.get("token");
-    if (!token) {
-      return NextResponse.json({ message: "Token not found" }, { status: 401 });
-    }
     const decoded = jwt.verify(token.value, process.env.TOKEN_SECRET);
     if (!decoded || !decoded.userId) {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
@@ -21,7 +18,7 @@ export async function GET(req) {
     if (!result) {
       await Treehole.create({
         userId: decoded.userId,
-        stamps: ["default"],
+        stamps: [],
         languages: [],
         location: "",
         onboard: false,

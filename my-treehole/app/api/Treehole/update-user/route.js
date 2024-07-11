@@ -50,6 +50,8 @@ export async function POST(req) {
     // Update treehole data
     treehole.languages = languages;
     treehole.location = location;
+    treehole.stamps = Array(5).fill(location);
+    treehole.onboard = true;
 
     // Save treehole document
     await treehole.save();
