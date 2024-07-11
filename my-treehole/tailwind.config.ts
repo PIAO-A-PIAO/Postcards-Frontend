@@ -13,6 +13,17 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        lake: '#64a8a8',
+        rainforest: '#006400',
+        savanna: '#DAA520',
+        grassland: '#7CFC00',
+        tundra: '#ADD8E6',
+        desert: '#F4A460',
+        taiga: '#556B2F',
+        peachblossom: '#FFC0CB',
+        island: '#A52A2A',
+      },
     },
   },
   plugins: [],
