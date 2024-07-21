@@ -14,17 +14,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         paper1: "url('/assets/paper1.svg')",
       },
-      spacing: {
-        "paper-w": "600px",
-        "paper-h": "800px",
-      },
-      lineHeight: {
-        "paper-line": "36px",
-      },
-      padding: {
-        "paper-x": "48px",
-        "paper-t": "88px",
-        "paper-b": "100px",
+      aspectRatio: {
+        paper: "3 / 4",
       },
       colors: {
         lake: "#64a8a8",
