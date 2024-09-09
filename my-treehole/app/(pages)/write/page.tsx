@@ -9,7 +9,24 @@ import React, {
   useState,
 } from "react";
 
+function getCurrentDateFormatted() {
+  const today = new Date();
+
+  // Get the year, month, and day from the Date object
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const day = String(today.getDate()).padStart(2, "0");
+
+  // Return the formatted date string
+  return `${year}${month}${day}`;
+}
+
 const WriteLetter = () => {
+  console.log("rerendered");
+  // Example usage
+  const dateString = getCurrentDateFormatted();
+  const [title, setTitle] = useState("New Letter " + dateString);
+
   const maxLines = 17;
   const [pages, setPages] = useState<string[]>([""]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -33,19 +50,27 @@ const WriteLetter = () => {
   const handleChangeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     console.log("call handleChangeContent");
     const textarea = textareaRef.current;
-
     if (!textarea) return;
-    const newContent = e.target.value;
 
+    const newContent = e.target.value;
+    console.log(textarea.selectionStart, textarea.selectionEnd);
+    // console.log(newContent.length);
     const lines = Math.floor(
       (textarea.scrollHeight + 1) /
         parseFloat(window.getComputedStyle(textarea).lineHeight)
     );
+
     if (lines <= maxLines && newContent !== "") {
       const updatedPages = [...pages];
       updatedPages[currentPage] = newContent;
       setPages(updatedPages);
     } else if (lines > maxLines) {
+      const textarea = textareaRef.current;
+
+      if (!textarea) return;
+
+      console.log("cursor at ", textarea.selectionEnd);
+      setInitCursorPosition(textarea.selectionEnd);
       setInitVContent(newContent);
       setVContent(newContent);
       setVCurrentPage(currentPage);
@@ -54,12 +79,12 @@ const WriteLetter = () => {
 
   useEffect(() => {
     if (vCurrentPage === -1) return;
+    if (relocateCursorOn) return;
     handleExceedLineLimit();
   }, [vCurrentPage]);
 
   const handleExceedLineLimit = () => {
     console.log("call handleExceedLineLimit");
-    // if (vCurrentPage === pages.length - 1) {
     //last page
     findVContentTrimIndex();
     // }
@@ -72,12 +97,7 @@ const WriteLetter = () => {
 
   const findVContentTrimIndex = () => {
     console.log("call findVContentTrimIndex");
-    const textarea = textareaRef.current;
 
-    if (!textarea) return;
-
-    console.log("cursor at ", textarea.selectionStart);
-    // setInitCursorPosition(textarea.selectionStart);
     setFindVContentTrimIndexOn(true);
     return;
   };
@@ -93,16 +113,13 @@ const WriteLetter = () => {
       (vTextarea.scrollHeight + 1) /
         parseFloat(window.getComputedStyle(vTextarea).lineHeight)
     );
-    console.log("vContent: ", vContent);
-    if (vLines === maxLines && vContent.endsWith(" ")) {
-      setFindVContentTrimIndexOn(false);
-      updateNextPage();
-    } else if (vContent === initVContent && vLines === maxLines) {
+
+    if (vLines === maxLines) {
       setFindVContentTrimIndexOn(false);
       updateNextPage();
     } else {
       //Trim one index to left
-      setVContent(vContent.substring(0, vContent.length - 1));
+      setVContent(vContent.substring(0, vContent.lastIndexOf(" ")));
     }
     return;
   }, [findVContentTrimIndexOn, vContent]);
@@ -110,15 +127,11 @@ const WriteLetter = () => {
   const updateNextPage = () => {
     console.log("call updateNextPage");
 
-    // if (vCurrentPage < pages.length - 1) {
-    //   return;
-    // }
-    console.log("vContent: ", vContent);
-    console.log("pages: ", pages);
     if (vContent === initVContent) {
-      setVCurrentPage(-1);
-      setInitVContent("");
       setVContent("");
+      setInitVContent("");
+      setVCurrentPage(-1);
+      setRelocateCursorOn(true);
       return;
     } else if (vContent === "") {
       return;
@@ -126,38 +139,26 @@ const WriteLetter = () => {
     const updatedPages = [...pages];
     updatedPages[vCurrentPage] = vContent;
     if (vCurrentPage === pages.length - 1) {
-      updatedPages.push(initVContent.substring(vContent.length));
+      updatedPages.push(initVContent.substring(vContent.length + 1));
     } else {
       updatedPages[vCurrentPage + 1] =
-        initVContent.substring(vContent.length) +
+        initVContent.substring(vContent.length + 1) +
+        " " +
         updatedPages[vCurrentPage + 1];
     }
-    console.log("updatedPages: ", updatedPages);
     setPages(updatedPages);
 
     turnPage(updatedPages[vCurrentPage + 1]);
   };
 
   const [relocateCursorOn, setRelocateCursorOn] = useState(false);
-
   const turnPage = (nextVContent: string) => {
     const textarea = textareaRef.current;
 
     if (!textarea) return;
     console.log("call turnPage");
-    // if (initCursorPosition >= vContent.length) {
-    //   setCurrentPage(currentPage + 1);
-    //   setInitCursorPosition(-1);
-    //   setInitVContent("");
-    //   setVContent("");
-    //   return;
-    // } else {
-    //   setRelocateCursorOn(true);
-    //   return;
-    // }
     setInitVContent(nextVContent);
     setVContent(nextVContent);
-    console.log("vContent is now: ", nextVContent);
     setVCurrentPage(vCurrentPage + 1);
   };
 
@@ -167,12 +168,19 @@ const WriteLetter = () => {
     const textarea = textareaRef.current;
 
     if (!textarea) return;
+
     setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(initCursorPosition, initCursorPosition);
+      let cursorPosition = initCursorPosition;
+      let pageNumber = currentPage;
+      while (cursorPosition > pages[currentPage].length) {
+        cursorPosition -= pages[currentPage].length;
+        pageNumber += 1;
+      }
       setInitCursorPosition(-1);
-      setInitVContent("");
-      setVContent("");
+      setCurrentPage(pageNumber);
+      textarea.focus();
+      console.log("new cursor position: " + cursorPosition);
+      textarea.setSelectionRange(20, 20);
       setRelocateCursorOn(false);
       return;
     }, 0);
@@ -207,25 +215,34 @@ const WriteLetter = () => {
 
   return (
     <div className="relative flex flex-col w-screen h-screen bg-gray-100">
-      <div className="w-full border-b flex py-4 px-8">
+      <div id="header" className="w-full border-b flex py-4 px-8">
         <button className="text-gray-600 flex" onClick={() => router.back()}>
           <img src="./assets/icons/left.svg" alt="Back" />
           Back
         </button>
+        <div className="flex-1 text-center">{title}</div>
+        <div className="flex"></div>
       </div>
-      <div className="flex w-full h-full items-center justify-between overflow-auto">
+      <div
+        id="middle"
+        className="flex w-full h-full items-center justify-between overflow-auto"
+      >
         <button
+          id="last-page"
           className="w-6 h-6 rounded-full bg-white mx-10"
           onClick={goToPreviousPage}
         >
           <img src="./assets/icons/left.svg" alt="Previous Page" />
         </button>
-        <div className="w-full h-full overflow-y-scroll no-scrollbar">
+        <div id="writing-area" className="w-full h-full overflow-y-scroll no-scrollbar">
           <div
+            id="paper-bg"
             style={{ containerType: "size" }}
-            className="relative bg-paper1 w-full aspect-paper bg-no-repeat bg-cover flex items-center justify-center"
+            className="relative mx-auto my-10 bg-paper1 w-2/3 aspect-paper bg-no-repeat bg-cover flex items-center justify-center"
           >
+            <div id="page-number" className="absolute top-3">{currentPage + 1}</div>
             <div
+              id="lines"
               className="absolute w-4/5 h-4/5"
               style={{ paddingTop: "6cqmin" }}
             >
@@ -236,7 +253,7 @@ const WriteLetter = () => {
               value={pages[currentPage]}
               onChange={handleChangeContent}
               style={{
-                fontSize: "3cqmin",
+                fontSize: "2.5cqmin",
                 lineHeight: "6cqmin",
                 paddingTop: "1cqmin",
               }}
@@ -250,7 +267,7 @@ const WriteLetter = () => {
                 console.log("wrong textarea");
               }}
               style={{
-                fontSize: "3cqmin",
+                fontSize: "2.5cqmin",
                 lineHeight: "6cqmin",
               }}
               className="absolute outline-none bg-transparent resize-none w-4/5 h-4/5 z-0 no-scrollbar whitespace-pre-wrap break-words text-transparent"
@@ -258,13 +275,17 @@ const WriteLetter = () => {
           </div>
         </div>
         <button
+          id="next-page"
           className="w-6 h-6 rounded-full bg-white mx-10"
           onClick={goToNextPage}
         >
           <img src="./assets/icons/right.svg" alt="Next Page" />
         </button>
       </div>
-      <div className="w-full flex py-4 px-8 border-t justify-between">
+      <div
+        id="footer"
+        className="w-full flex py-4 px-8 border-t justify-between"
+      >
         <button
           className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none"
           onClick={handleArchive}
