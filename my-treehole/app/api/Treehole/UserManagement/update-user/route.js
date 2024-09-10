@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import Treehole from "@/app/(models)/Treehole"; // Update with your actual import path for Treehole model
-import connectDB from "../../../lib/connectDB";
+import connectDB from "../../../../lib/connectDB";
 
 export async function POST(req) {
   try {

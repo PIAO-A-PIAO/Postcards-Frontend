@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const notificationSchema = new Schema(
   {
@@ -11,3 +11,5 @@ const notificationSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const Notification = mongoose.model("Notification", notificationSchema);

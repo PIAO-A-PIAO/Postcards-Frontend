@@ -1,11 +1,16 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const badgeSchema = new Schema({
+const badgeSchema = new Schema(
+  {
     badgeId: String,
     name: String,
     description: String,
     image: String,
-    criteria: String
-},{
-    timestamps: true
-})
+    criteria: String,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Badge = mongoose.model("Badge", badgeSchema);

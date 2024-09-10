@@ -1,5 +1,4 @@
-import { timeStamp } from "console";
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
   {
@@ -12,6 +11,9 @@ const userSchema = new Schema(
     paperStyles: [String],
     contacts: [String],
     badges: [String],
+    languages: [String],
   },
   { timestamps: true }
 );
+
+const User = mongoose.model("User", userSchema);

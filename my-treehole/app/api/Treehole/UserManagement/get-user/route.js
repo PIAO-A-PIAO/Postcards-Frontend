@@ -1,5 +1,5 @@
 import Treehole from "@/app/(models)/Treehole";
-import connectDB from "../../../lib/connectDB";
+import connectDB from "../../../../lib/connectDB";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 

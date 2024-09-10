@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const letterSchema = new Schema(
   {
@@ -14,6 +14,11 @@ const letterSchema = new Schema(
     toAddress: String,
     toRegion: String,
     deliveryStatus: String,
+    language: String,
+    isSent: Boolean,
+    isReceived: Boolean,
   },
-  {  timestamps: true}
+  { timestamps: true }
 );
+
+const Letter = mongoose.model("Letter", letterSchema);

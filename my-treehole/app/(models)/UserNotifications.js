@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userNotificationSchema = new Schema(
   {
@@ -9,4 +9,9 @@ const userNotificationSchema = new Schema(
     readAt: Date,
   },
   { timestamps: true }
+);
+
+const UserNotification = mongoose.model(
+  "UserNotification",
+  userNotificationSchema
 );
