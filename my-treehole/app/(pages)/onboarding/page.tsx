@@ -45,7 +45,7 @@ const OnboardingPage = () => {
       location: location,
     };
     try {
-      const response = await fetch("./api/Treehole/update-user", {
+      const response = await fetch("./api/Treehole/UserManagement/update-user", {
         method: "POST",
         body: JSON.stringify({ formData }),
         headers: {

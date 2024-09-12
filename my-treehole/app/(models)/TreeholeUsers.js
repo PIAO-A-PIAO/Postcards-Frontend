@@ -1,19 +1,23 @@
 import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema(
+const treeholeUserSchema = new Schema(
   {
     userId: String,
     userName: String,
     region: String,
     virtualAddress: String,
-    zipCode: string,
+    zipCode: String,
     stamps: [String],
     paperStyles: [String],
     contacts: [String],
     badges: [String],
     languages: [String],
+    onboarded: Boolean,
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+const TreeholeUser =
+  mongoose.models.TreeholeUser ||
+  mongoose.model("TreeholeUser", treeholeUserSchema);
+export default TreeholeUser;

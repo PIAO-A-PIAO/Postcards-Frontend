@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
-import Treehole from "@/app/(models)/Treehole"; // Update with your actual import path for Treehole model
+import TreeholeUser from "../../../../(models)/TreeholeUsers";
 import connectDB from "../../../../lib/connectDB";
 
 export async function POST(req) {
@@ -35,10 +35,10 @@ export async function POST(req) {
 
     const { languages, location } = formData;
 
-    // Find or create Treehole document for the user
-    let treehole = await Treehole.findOne({ userId: decoded.userId });
+    // Find or create User document for the user
+    let user = await TreeholeUser.findOne({ userId: decoded.userId });
 
-    if (!treehole) {
+    if (!user) {
       return NextResponse.json(
         {
           message: "Couldn't find",
@@ -48,16 +48,15 @@ export async function POST(req) {
     }
 
     // Update treehole data
-    treehole.languages = languages;
-    treehole.location = location;
-    treehole.stamps = Array(5).fill(location);
-    treehole.onboard = true;
+    user.languages = languages;
+    user.location = location;
+    user.onboarded = true;
 
     // Save treehole document
-    await treehole.save();
+    await user.save();
 
     return NextResponse.json(
-      { message: "Treehole updated successfully", data: treehole },
+      { message: "User updated successfully", data: user },
       { status: 200 }
     );
   } catch (error) {

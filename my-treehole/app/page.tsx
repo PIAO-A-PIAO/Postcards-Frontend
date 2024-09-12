@@ -1,8 +1,26 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
-import OnboardingModal from "./(components)/OnboardingModal";
+import { cookies } from "next/headers";
 
-export default function Home() {
+export default async function Home() {
+  const token = cookies().get("token");
+  if (token) {
+    const response = await fetch(
+      `${process.env.BASE_URL}/Letters/get-unread-and-unsent-letters`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Cookie: `token=${token.value}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error("Error fetching");
+    } else {
+      const result = await response.json();
+      console.log(result);
+    }
+  }
   return (
     <main className="bg-gray-50 flex flex-col w-screen h-screen items-center justify-between p-24">
       <a href="/write" className="bg-blue-600 p-4 text-white rounded-lg">

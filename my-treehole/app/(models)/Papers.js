@@ -11,4 +11,6 @@ const paperSchema = new Schema(
   { timestamps: true }
 );
 
-const Paper = mongoose.model("Paper", paperSchema);
+const Paper = mongoose.models.Paper || mongoose.model("Paper", paperSchema);
+
+export default Paper;

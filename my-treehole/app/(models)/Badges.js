@@ -13,4 +13,5 @@ const badgeSchema = new Schema(
   }
 );
 
-const Badge = mongoose.model("Badge", badgeSchema);
+const Badge = mongoose.models.Badege || mongoose.model("Badge", badgeSchema);
+export default Badge;

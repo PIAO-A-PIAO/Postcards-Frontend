@@ -11,4 +11,6 @@ const stampSchema = new Schema(
   { timestamps: true }
 );
 
-const Stamp = mongoose.model("Stamp", stampSchema);
+const Stamp = mongoose.models.Stamp || mongoose.model("Stamp", stampSchema);
+
+export default Stamp;

@@ -13,12 +13,13 @@ const letterSchema = new Schema(
     fromRegion: String,
     toAddress: String,
     toRegion: String,
-    deliveryStatus: String,
     language: String,
     isSent: Boolean,
-    isReceived: Boolean,
+    isRead: Boolean
   },
   { timestamps: true }
 );
 
-const Letter = mongoose.model("Letter", letterSchema);
+const Letter = mongoose.models.Letter || mongoose.model("Letter", letterSchema);
+
+export default Letter;

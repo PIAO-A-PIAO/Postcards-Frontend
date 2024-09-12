@@ -11,7 +11,9 @@ const userNotificationSchema = new Schema(
   { timestamps: true }
 );
 
-const UserNotification = mongoose.model(
+const UserNotification = mongoose.models.UserNotification || mongoose.model(
   "UserNotification",
   userNotificationSchema
 );
+
+export default UserNotification;
