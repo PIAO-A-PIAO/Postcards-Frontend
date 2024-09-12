@@ -11,7 +11,7 @@ export async function GET(req) {
 
     // check identity
     const token = req.cookies.get("token");
-    console.log("token",token.value)
+    console.log("token",token)
     const decoded = jwt.verify(token.value, process.env.TOKEN_SECRET);
     if (!decoded || !decoded.userId) {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
