@@ -2,7 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const letterSchema = new Schema(
   {
-    letterId: String,
     senderId: String,
     recipientId: String,
     contents: [String],
@@ -14,6 +13,7 @@ const letterSchema = new Schema(
     toAddress: String,
     toRegion: String,
     language: String,
+    isDraft: Boolean,
     isSent: Boolean,
     isRead: Boolean
   },

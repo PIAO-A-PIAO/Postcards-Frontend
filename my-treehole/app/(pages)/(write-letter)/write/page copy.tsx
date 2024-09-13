@@ -1,4 +1,5 @@
 "use client";
+import SaveDraftModal from "@/app/(components)/SaveDraftModal";
 import { useRouter } from "next/navigation";
 import React, {
   ChangeEvent,
@@ -213,10 +214,18 @@ const WriteLetter = () => {
     }
   };
 
+  const [showSaveDraft, setShowSaveDraft] = useState(false);
+
+  const [formData, setFormData] = useState({})
+  
   return (
     <div className="relative flex flex-col w-screen h-screen bg-gray-100">
+      {showSaveDraft && <SaveDraftModal onClose={()=>setShowSaveDraft(false)}/>}
       <div id="header" className="w-full border-b flex py-4 px-8">
-        <button className="text-gray-600 flex" onClick={() => router.back()}>
+        <button
+          className="text-gray-600 flex"
+          onClick={() => setShowSaveDraft(true)}
+        >
           <img src="./assets/icons/left.svg" alt="Back" />
           Back
         </button>
@@ -234,13 +243,18 @@ const WriteLetter = () => {
         >
           <img src="./assets/icons/left.svg" alt="Previous Page" />
         </button>
-        <div id="writing-area" className="w-full h-full overflow-y-scroll no-scrollbar">
+        <div
+          id="writing-area"
+          className="w-full h-full overflow-y-scroll no-scrollbar"
+        >
           <div
             id="paper-bg"
             style={{ containerType: "size" }}
             className="relative mx-auto my-10 bg-paper1 w-2/3 aspect-paper bg-no-repeat bg-cover flex items-center justify-center"
           >
-            <div id="page-number" className="absolute top-3">{currentPage + 1}</div>
+            <div id="page-number" className="absolute top-3">
+              {currentPage + 1}
+            </div>
             <div
               id="lines"
               className="absolute w-4/5 h-4/5"

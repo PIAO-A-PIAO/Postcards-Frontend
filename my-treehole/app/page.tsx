@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import {GetUserInfo} from "./(components)/GetUserInfo";
 
 export default async function Home() {
   const token = cookies().get("token");
@@ -19,7 +20,7 @@ export default async function Home() {
     } else {
       const result = await response.json();
       console.log(result);
-    }
+    } 
   }
   return (
     <main className="bg-gray-50 flex flex-col w-screen h-screen items-center justify-between p-24">
@@ -41,6 +42,7 @@ export default async function Home() {
       <a className="bg-blue-600 p-4 text-white rounded-lg">
         Profile/settings - this is a map
       </a>
+      <GetUserInfo token={token} baseUrl={process.env.BASE_URL}/>
     </main>
   );
 }

@@ -1,7 +1,9 @@
+import TreeholeUser from "../../../../(models)/TreeholeUsers";
 import connectDB from "../../../../lib/connectDB";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import Letter from "../../../../(models)/Letters";
+import { cookies } from "next/headers";
 
 export async function GET(req) {
   try {
@@ -14,19 +16,25 @@ export async function GET(req) {
     if (!decoded || !decoded.userId) {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
-    const userId = decoded.userId;
 
-    // find unread letters
-    const unread = await Letter.find({ receipientId: userId });
+    // find user
+    const result = await TreeholeUser.findOne({ userId: decoded.userId });
 
-    // find unsent letters
-    const unsent = await Letter.find({ senderId: userId, isDraft: true });
-
+    // user exists but treehole user does not exist
+    if (!result) {
+      await TreeholeUser.create({
+        userId: decoded.userId,
+        onboarded: false,
+      });
+      return NextResponse.json(
+        { message: "New User created", onboarded: false },
+        { status: 200 }
+      );
+    }
     return NextResponse.json(
-      { message: "unread letters and unsent letters found" },
+      { message: "User found", onboarded: result.onboarded },
       {
-        unread,
-        unsent,
+        status: 200,
       }
     );
   } catch (error) {
