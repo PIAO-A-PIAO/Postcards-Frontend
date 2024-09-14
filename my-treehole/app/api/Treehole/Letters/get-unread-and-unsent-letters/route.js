@@ -23,11 +23,8 @@ export async function GET(req) {
     const unsent = await Letter.find({ senderId: userId, isDraft: true });
 
     return NextResponse.json(
-      { message: "unread letters and unsent letters found" },
-      {
-        unread,
-        unsent,
-      }
+      { message: "unread letters and unsent letters found", unread: unread, unsent: unsent},
+      
     );
   } catch (error) {
     console.error(error);

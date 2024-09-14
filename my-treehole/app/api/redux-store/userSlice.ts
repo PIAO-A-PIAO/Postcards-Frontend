@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 export interface UserState {
   userId: String;
@@ -32,11 +33,15 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserState: (state, action: PayloadAction<UserState>) => {
-      state = action.payload;
+    setUserState: (state, action: PayloadAction<Partial<UserState>>) => {
+      // Merge the existing state with the payload, updating only the fields that are present in the payload
+      Object.assign(state, action.payload);
+      // Alternatively, you can use:
+      // return { ...state, ...action.payload };
     },
   },
 });
+export const selectUser = (state: RootState) => state.user;
 
 export const { setUserState } = userSlice.actions;
 export const userReducer = userSlice.reducer;

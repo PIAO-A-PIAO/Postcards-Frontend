@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface LetterState {
+export interface Letter {
   senderId: String;
   recipientId: String;
   contents: [String];
@@ -18,32 +18,33 @@ export interface LetterState {
   isRead: Boolean | null;
 }
 
+export interface LetterState {
+  unread: [Letter];
+  unsent: [Letter];
+  current: Letter;
+}
+
 const initialState: LetterState = {
-  senderId: "",
-  recipientId: "",
-  contents: [""],
-  attachments: [""],
-  stampUsed: "",
-  paperStyle: "",
-  fromAddress: "",
-  fromRegion: "",
-  toAddress: "",
-  toRegion: "",
-  language: "",
-  isDraft: null,
-  isSent: null,
-  isRead: null,
+  unread: <[Letter]>{},
+  unsent: <[Letter]>{},
+  current: <Letter>{},
 };
 
 export const letterSlice = createSlice({
   name: "letter",
   initialState,
   reducers: {
-    setLetterState: (state, action: PayloadAction<LetterState>) => {
-      state = action.payload;
+    setUnreadState: (state, action: PayloadAction<[Letter]>) => {
+      state.unread = action.payload;
+    },
+    setUnsentState: (state, action: PayloadAction<[Letter]>) => {
+      state.unsent = action.payload;
+    },
+    setCurrentState: (state, action: PayloadAction<Letter>) => {
+      state.current = action.payload;
     },
   },
 });
 
-export const { setLetterState } = letterSlice.actions;
+export const { setUnreadState, setUnsentState, setCurrentState } = letterSlice.actions;
 export const letterReducer = letterSlice.reducer;
