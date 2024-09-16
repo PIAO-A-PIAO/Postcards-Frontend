@@ -6,6 +6,7 @@ const letterSchema = new Schema(
     recipientId: String,
     contents: [String],
     attachments: [String],
+    title: String,
     stampUsed: String,
     paperStyle: String,
     fromAddress: String,

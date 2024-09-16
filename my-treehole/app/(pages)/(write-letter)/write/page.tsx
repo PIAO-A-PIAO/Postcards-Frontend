@@ -1,13 +1,7 @@
-import ReduxProvider from "@/app/api/redux-store/redux-provider";
 import React from "react";
-import WriteLetter from "./page copy";
-
+import WriteLetter from "@/app/(components)/WriteLetter/WriteLetter";
 function Page() {
-  return (
-    <ReduxProvider>
-      <WriteLetter />
-    </ReduxProvider>
-  );
+  return <WriteLetter />;
 }
 
 export default Page;

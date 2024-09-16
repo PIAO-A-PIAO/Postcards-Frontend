@@ -6,6 +6,7 @@ export interface Letter {
   recipientId: String;
   contents: [String];
   attachments: [String];
+  title: String;
   stampUsed: String;
   paperStyle: String;
   fromAddress: String;
@@ -40,8 +41,8 @@ export const letterSlice = createSlice({
     setUnsentState: (state, action: PayloadAction<[Letter]>) => {
       state.unsent = action.payload;
     },
-    setCurrentState: (state, action: PayloadAction<Letter>) => {
-      state.current = action.payload;
+    setCurrentState: (state, action: PayloadAction<Partial<Letter>>) => {
+      Object.assign(state.current, action.payload);
     },
   },
 });

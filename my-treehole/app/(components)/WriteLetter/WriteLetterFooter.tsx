@@ -1,6 +1,15 @@
 import React from 'react'
 
 function WriteLetterFooter() {
+  const handleArchive = () => {
+
+  }
+
+  const handleDiscard = () => {
+
+  }
+
+  const handleSend = () => {}
   return (
     <div
         id="footer"
