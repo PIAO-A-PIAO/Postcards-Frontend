@@ -35,6 +35,7 @@ export const letterSlice = createSlice({
   name: "letter",
   initialState,
   reducers: {
+    resetLetter: () => initialState,
     setUnreadState: (state, action: PayloadAction<[Letter]>) => {
       state.unread = action.payload;
     },
@@ -47,5 +48,6 @@ export const letterSlice = createSlice({
   },
 });
 
-export const { setUnreadState, setUnsentState, setCurrentState } = letterSlice.actions;
+export const { resetLetter, setUnreadState, setUnsentState, setCurrentState } =
+  letterSlice.actions;
 export const letterReducer = letterSlice.reducer;

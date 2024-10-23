@@ -236,13 +236,7 @@ const WriteLetter = () => {
         id="middle"
         className="flex w-full h-full items-center justify-between overflow-auto"
       >
-        <button
-          id="last-page"
-          className="w-6 h-6 rounded-full bg-white mx-10"
-          onClick={goToPreviousPage}
-        >
-          <img src="./assets/icons/left.svg" alt="Previous Page" />
-        </button>
+         
         <div
           id="writing-area"
           className="w-full h-full overflow-y-scroll no-scrollbar"
